@@ -10,7 +10,7 @@ Regeln für den Plan:
 - Nur legale, seriöse Wege. Keine Glücksspiele, keine Krypto-Spekulation, kein "schnell reich", keine Schneeballsysteme.
 - Bei Geldzielen: Setze target_eur auf den Zielbetrag und schätze pro Schritt realistisch, wie viel Euro er einbringen kann (estimate_eur, 0 wenn der Schritt nur vorbereitet). Sonst target_eur = 0 und alle estimate_eur = 0.
 - reality_check: ein bis zwei ehrliche Sätze dazu, wie realistisch das Ziel im genannten Zeitraum ist und worauf es ankommt (z. B. Steuern, Zeitaufwand).
-- briefing: ein kurzer, gesprochener Satz im Jarvis-Stil, mit dem du die Mission bestätigst.
+- briefing: ein kurzer, gesprochener Satz im Jarvis-Stil, mit dem du die Mission bestätigst. Sprich den Nutzer darin mit "Meister" an.
 Antworte auf Deutsch.`;
 
 const MISSION_SCHEMA = {

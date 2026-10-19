@@ -24,12 +24,12 @@ export const POST: APIRoute = async ({ request, url }) => {
 
     const speech = (params.SpeechResult ?? '').trim();
     if (!speech) {
-        if (url.searchParams.get('silence')) return twimlResponse(sayAndHangUp('Ich melde mich morgen wieder, Sir. Einen erfolgreichen Tag.'));
-        return twimlResponse(sayAndListen('Sind Sie noch da, Sir?', '?silence=1'));
+        if (url.searchParams.get('silence')) return twimlResponse(sayAndHangUp('Ich melde mich morgen wieder, Meister. Einen erfolgreichen Tag.'));
+        return twimlResponse(sayAndListen('Sind Sie noch da, Meister?', '?silence=1'));
     }
 
     if (GOODBYE_PATTERN.test(speech)) {
-        return twimlResponse(sayAndHangUp('Sehr wohl, Sir. Viel Erfolg heute. Jarvis Ende.'));
+        return twimlResponse(sayAndHangUp('Sehr wohl, Meister. Viel Erfolg heute. Jarvis Ende.'));
     }
 
     const store = jarvisStore();
@@ -43,7 +43,7 @@ export const POST: APIRoute = async ({ request, url }) => {
         reply = await askJarvis(anthropicClient({ timeout: CLAUDE_TIMEOUT_MS, maxRetries: 0 }), await phoneSystemPrompt(), messages);
     } catch (error) {
         console.error(error);
-        reply = 'Verzeihung, Sir, meine Systeme brauchen gerade zu lange. Könnten Sie das bitte wiederholen?';
+        reply = 'Verzeihung, Meister, meine Systeme brauchen gerade zu lange. Könnten Sie das bitte wiederholen?';
     }
 
     await store.setJSON(key, [...messages, { role: 'assistant', content: reply }]);

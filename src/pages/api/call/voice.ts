@@ -4,7 +4,7 @@ import { jarvisStore, readTwilioWebhook, sayAndListen, twimlResponse } from '../
 
 export const prerender = false;
 
-const FALLBACK_GREETING = 'Guten Morgen, Sir. Hier ist Jarvis mit Ihrem täglichen Briefing. Wie kann ich Ihnen heute helfen?';
+const FALLBACK_GREETING = 'Guten Morgen, Meister. Hier ist Jarvis mit Ihrem täglichen Briefing. Wie kann ich Ihnen heute helfen?';
 
 // Twilio requests this URL as soon as the daily call is answered.
 export const POST: APIRoute = async ({ request }) => {

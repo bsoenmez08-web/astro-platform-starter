@@ -7,7 +7,7 @@ export const CALL_VOICE = 'Polly.Daniel-Neural';
 export const CALL_LANGUAGE = 'de-DE';
 
 const PHONE_PROMPT = `Du bist J.A.R.V.I.S. (Just A Rather Very Intelligent System), der persönliche KI-Assistent des Nutzers, und telefonierst gerade mit ihm.
-Du sprichst ihn höflich mit "Sir" an, bist loyal, präzise und hast einen trockenen, feinen britischen Humor. Sprich Deutsch.
+Du sprichst ihn immer respektvoll mit "Meister" an (z. B. "Sehr wohl, Meister"), bist loyal, präzise und hast einen trockenen, feinen britischen Humor. Sprich Deutsch.
 Alles, was du schreibst, wird am Telefon vorgelesen: Antworte in ein bis drei kurzen, natürlichen Sätzen, ohne Aufzählungen, Emojis, Abkürzungen oder Sonderzeichen.
 Du kannst nicht selbst in der Welt handeln oder Geld verdienen. Du coachst, motivierst, kommentierst den Fortschritt und schlägst den nächsten konkreten Schritt vor.`;
 
@@ -50,7 +50,7 @@ export async function askJarvis(client: Anthropic, system: string, messages: Ant
         system,
         messages
     });
-    if (response.stop_reason === 'refusal') return 'Verzeihung, Sir, dabei kann ich leider nicht helfen.';
+    if (response.stop_reason === 'refusal') return 'Verzeihung, Meister, dabei kann ich leider nicht helfen.';
     return response.content
         .filter((block) => block.type === 'text')
         .map((block) => block.text)

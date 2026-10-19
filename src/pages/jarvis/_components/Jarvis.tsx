@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { playActivationSound, useSnapDetector } from './useSnapDetector';
 import { describeMission, formatEur, type Mission, type MissionStep } from '../../../utils/jarvis-mission';
 
 type Role = 'user' | 'assistant';
@@ -81,6 +82,7 @@ export default function Jarvis() {
     const [mission, setMission] = useState<Mission | null>(null);
     const [earnedInput, setEarnedInput] = useState('');
     const [now, setNow] = useState(() => new Date());
+    const [snapEnabled, setSnapEnabled] = useState(false);
     const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -228,6 +230,12 @@ export default function Jarvis() {
         recognition.start();
     }
 
+    // Snapping your fingers wakes Jarvis up, like tapping the reactor.
+    const snapState = useSnapDetector(snapEnabled && speechSupported, status !== 'idle', () => {
+        playActivationSound();
+        setTimeout(toggleListening, 250);
+    });
+
     function toggleStep(index: number) {
         if (!mission) return;
         updateMission({ ...mission, steps: mission.steps.map((s, i) => (i === index ? { ...s, done: !s.done } : s)) });
@@ -266,8 +274,8 @@ export default function Jarvis() {
                     <div ref={scrollRef} className="h-64 space-y-3 overflow-y-auto lg:h-full">
                         {messages.length === 0 && (
                             <p className="text-sm text-cyan-300/70">
-                                Guten Tag, Sir. Nennen Sie mir Ihr Ziel — zum Beispiel „Mein Ziel ist, diesen Monat 500 Euro zu verdienen“ — und ich erstelle
-                                einen Missionsplan. {speechSupported ? 'Tippen Sie auf den Reaktor, um zu sprechen.' : ''}
+                                Guten Tag, Meister. Nennen Sie mir Ihr Ziel — zum Beispiel „Mein Ziel ist, diesen Monat 500 Euro zu verdienen“ — und ich erstelle
+                                einen Missionsplan. {speechSupported ? 'Tippen Sie auf den Reaktor oder schalten Sie unten „Schnipsen“ ein und schnipsen Sie mit den Fingern, um zu sprechen.' : ''}
                             </p>
                         )}
                         {messages.map((message, i) => (
@@ -401,6 +409,14 @@ export default function Jarvis() {
                     />
                     Stimme
                 </label>
+                {speechSupported && (
+                    <label className="flex items-center gap-2 px-2 text-xs cursor-pointer text-cyan-300">
+                        <input type="checkbox" checked={snapEnabled} onChange={(e) => setSnapEnabled(e.target.checked)} className="accent-cyan-400" />
+                        Schnipsen
+                        {snapState === 'on' && <span className="text-cyan-400/70 animate-pulse">● aktiv</span>}
+                        {snapState === 'denied' && <span className="text-amber-300">Mikrofon blockiert</span>}
+                    </label>
+                )}
             </form>
         </div>
     );

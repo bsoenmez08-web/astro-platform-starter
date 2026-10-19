@@ -48,6 +48,10 @@ Unter `/jarvis` gibt es einen KI-Sprachassistenten im Stil von Iron Mans J.A.R.V
 
 Setze dafür die Umgebungsvariable `ANTHROPIC_API_KEY` (lokal in `.env`, auf Netlify unter _Site configuration → Environment variables_). **Missionsmodus:** Sagen oder schreiben Sie „Mein Ziel ist …“ (z. B. „Mein Ziel ist, diesen Monat 500 Euro zu verdienen“). Jarvis erstellt daraus einen Schritt-für-Schritt-Plan, Sie haken Schritte ab und erfassen verdiente Beträge; der Fortschritt bleibt im Browser gespeichert. Jarvis plant und coacht – die Schritte führen Sie selbst aus.
 
+**Schnipsen:** Schalten Sie unten „Schnipsen“ ein (Mikrofon erlauben) und schnipsen Sie mit den Fingern – Jarvis piept kurz und hört zu.
+
+Jarvis spricht Sie mit „Meister“ an.
+
 Spracheingabe funktioniert am besten in Chrome, Edge oder Safari.
 
 ### Jarvis ruft Sie an (Twilio)
@@ -58,7 +62,7 @@ Jarvis kann Sie jeden Tag zu einer festen Uhrzeit auf dem Handy anrufen, Ihnen d
 2. In Netlify unter _Site configuration → Environment variables_ setzen:
    - `TWILIO_ACCOUNT_SID` und `TWILIO_AUTH_TOKEN` (aus der Twilio Console)
    - `TWILIO_PHONE_NUMBER` – Ihre Twilio-Nummer, z. B. `+4930123456789`
-   - `JARVIS_PHONE_NUMBER` – Ihre Handynummer, z. B. `+4917612345678`
+   - `JARVIS_PHONE_NUMBER` – Ihre Handynummer im internationalen Format, z. B. `+41764569870` für 076 456 98 70 (Schweiz) oder `+4917612345678` (Deutschland)
    - `JARVIS_CALL_HOUR` – Stunde des Anrufs in deutscher Zeit (Standard: `8`)
 3. Neu deployen. Die geplante Funktion `jarvis-daily-call` läuft stündlich und ruft einmal pro Tag zur eingestellten Stunde an. Zum Testen lässt sie sich in Netlify unter _Functions_ auch sofort ausführen („Run now“), sofern die aktuelle Stunde mit `JARVIS_CALL_HOUR` übereinstimmt.
 
