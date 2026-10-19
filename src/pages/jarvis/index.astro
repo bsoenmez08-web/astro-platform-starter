@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Jarvis from './_components/Jarvis';
+---
+
+<Layout title="J.A.R.V.I.S.">
+    <section class="mb-12 text-center">
+        <h1 class="mb-4">J.A.R.V.I.S.</h1>
+        <p class="text-lg text-gray-300">Ihr persönlicher KI-Assistent — mit Spracheingabe und Sprachausgabe.</p>
+    </section>
+    <Jarvis client:only="react" />
+</Layout>
+
+<style is:global>
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>

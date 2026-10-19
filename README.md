@@ -41,3 +41,9 @@ netlify link
 ```
 npm run dev
 ```
+
+## J.A.R.V.I.S.
+
+Unter `/jarvis` gibt es einen KI-Sprachassistenten im Stil von Iron Mans J.A.R.V.I.S. (Chat, Spracheingabe und Sprachausgabe über die Web Speech API, Antworten von Claude).
+
+Setze dafür die Umgebungsvariable `ANTHROPIC_API_KEY` (lokal in `.env`, auf Netlify unter _Site configuration → Environment variables_). Spracheingabe funktioniert am besten in Chrome, Edge oder Safari.
