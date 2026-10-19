@@ -1,19 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { describeMission, formatEur, type Mission, type MissionStep } from '../../../utils/jarvis-mission';
 
 type Role = 'user' | 'assistant';
 type Message = { role: Role; content: string };
 type Status = 'idle' | 'listening' | 'thinking' | 'planning' | 'speaking';
-
-type MissionStep = { title: string; detail: string; estimate_eur: number; done?: boolean };
-type Mission = {
-    goal: string;
-    title: string;
-    briefing: string;
-    target_eur: number;
-    reality_check: string;
-    steps: MissionStep[];
-    earned_eur: number;
-};
 
 const STATUS_LABEL: Record<Status, string> = {
     idle: 'System bereit',
@@ -73,14 +63,13 @@ function saveMission(mission: Mission | null) {
     }
 }
 
-function formatEur(value: number) {
-    return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
-}
-
-function describeMission(mission: Mission) {
-    const steps = mission.steps.map((s, i) => `${i + 1}. [${s.done ? 'x' : ' '}] ${s.title}`).join('\n');
-    const money = mission.target_eur > 0 ? `\nFortschritt: ${formatEur(mission.earned_eur)} von ${formatEur(mission.target_eur)}` : '';
-    return `Ziel: ${mission.goal}\nMission: ${mission.title}${money}\nSchritte:\n${steps}`;
+// Mirror the mission to the server so the daily phone call knows the current goal and progress.
+function syncMissionToServer(mission: Mission | null) {
+    fetch('/api/jarvis-mission-state', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mission })
+    }).catch(() => {});
 }
 
 export default function Jarvis() {
@@ -97,7 +86,18 @@ export default function Jarvis() {
 
     useEffect(() => {
         setSpeechSupported(!!getSpeechRecognition());
-        setMission(loadMission());
+        const localMission = loadMission();
+        if (localMission) setMission(localMission);
+        else
+            fetch('/api/jarvis-mission-state')
+                .then((res) => (res.ok ? res.json() : null))
+                .then((data) => {
+                    if (data?.mission) {
+                        setMission(data.mission);
+                        saveMission(data.mission);
+                    }
+                })
+                .catch(() => {});
         // Some browsers load voices asynchronously.
         window.speechSynthesis?.getVoices();
         const timer = setInterval(() => setNow(new Date()), 1000);
@@ -111,6 +111,7 @@ export default function Jarvis() {
     function updateMission(next: Mission | null) {
         setMission(next);
         saveMission(next);
+        syncMissionToServer(next);
     }
 
     function speak(text: string) {
