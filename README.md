@@ -46,4 +46,6 @@ npm run dev
 
 Unter `/jarvis` gibt es einen KI-Sprachassistenten im Stil von Iron Mans J.A.R.V.I.S. (Chat, Spracheingabe und Sprachausgabe über die Web Speech API, Antworten von Claude).
 
-Setze dafür die Umgebungsvariable `ANTHROPIC_API_KEY` (lokal in `.env`, auf Netlify unter _Site configuration → Environment variables_). Spracheingabe funktioniert am besten in Chrome, Edge oder Safari.
+Setze dafür die Umgebungsvariable `ANTHROPIC_API_KEY` (lokal in `.env`, auf Netlify unter _Site configuration → Environment variables_). **Missionsmodus:** Sagen oder schreiben Sie „Mein Ziel ist …“ (z. B. „Mein Ziel ist, diesen Monat 500 Euro zu verdienen“). Jarvis erstellt daraus einen Schritt-für-Schritt-Plan, Sie haken Schritte ab und erfassen verdiente Beträge; der Fortschritt bleibt im Browser gespeichert. Jarvis plant und coacht – die Schritte führen Sie selbst aus.
+
+Spracheingabe funktioniert am besten in Chrome, Edge oder Safari.

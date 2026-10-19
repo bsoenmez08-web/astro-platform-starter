@@ -23,8 +23,10 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     let messages: Anthropic.MessageParam[];
+    let mission = '';
     try {
         const body = await request.json();
+        if (typeof body?.mission === 'string') mission = body.mission.slice(0, 4000);
         if (!Array.isArray(body?.messages) || !body.messages.every(isMessageParam)) throw new Error();
         messages = body.messages.slice(-MAX_HISTORY);
         if (messages[0]?.role !== 'user') messages = messages.slice(1);
@@ -45,7 +47,9 @@ export const POST: APIRoute = async ({ request }) => {
                     output_config: { effort: 'low' },
                     betas: ['server-side-fallback-2026-07-01'],
                     fallbacks: 'default',
-                    system: SYSTEM_PROMPT,
+                    system: mission
+                        ? `${SYSTEM_PROMPT}\n\nAktuelle Mission des Nutzers (du kannst nicht selbst handeln, aber coachen, Fortschritt kommentieren und den nächsten Schritt vorschlagen):\n${mission}`
+                        : SYSTEM_PROMPT,
                     messages
                 });
 

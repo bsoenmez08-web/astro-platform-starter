@@ -1,15 +1,21 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import '../../styles/globals.css';
+import '@fontsource-variable/inter/wght.css';
 import Jarvis from './_components/Jarvis';
 ---
 
-<Layout title="J.A.R.V.I.S.">
-    <section class="mb-12 text-center">
-        <h1 class="mb-4">J.A.R.V.I.S.</h1>
-        <p class="text-lg text-gray-300">Ihr persönlicher KI-Assistent — mit Spracheingabe und Sprachausgabe.</p>
-    </section>
-    <Jarvis client:only="react" />
-</Layout>
+<!doctype html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8" />
+        <title>J.A.R.V.I.S.</title>
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    </head>
+    <body class="antialiased text-white bg-[radial-gradient(ellipse_at_center,#0b2a3a_0%,#030712_70%)] bg-gray-950">
+        <Jarvis client:only="react" />
+    </body>
+</html>
 
 <style is:global>
     @keyframes spin {
